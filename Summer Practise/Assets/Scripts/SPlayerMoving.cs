@@ -28,5 +28,23 @@ public class SPlayerMoving : MonoBehaviour
             Vector3 step = ProjectionOnXZ(_camera_transform.forward.normalized);
             _player_transform.position += player_speed * step;
         }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            Vector3 step = -ProjectionOnXZ(_camera_transform.forward.normalized);
+            _player_transform.position += player_speed * step;
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            Vector3 step = ProjectionOnXZ(_camera_transform.right.normalized);
+            _player_transform.position += player_speed * step;
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            Vector3 step = -ProjectionOnXZ(_camera_transform.right.normalized);
+            _player_transform.position += player_speed * step;
+        }
     }
 }
