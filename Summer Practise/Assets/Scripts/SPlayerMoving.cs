@@ -6,45 +6,37 @@ public class SPlayerMoving : MonoBehaviour
 {
 
     public float player_speed = 0.04f;
-    private Transform _player_transform;
+
+    private Rigidbody _player_rigidbody;
     private Transform _camera_transform;
 
     void Start()
     {
-        _player_transform = transform;
+        _player_rigidbody = GetComponent<Rigidbody>();
         _camera_transform = Camera.main.transform;
     }
 
     private Vector3 ProjectionOnXZ(Vector3 vector)
     {
-        vector.y = 0f;
+        vector.y = 0.0f;
         return vector;
     }
 
-    void Update()
+    private Vector3 DirectionVector()
     {
-        if (Input.GetKey(KeyCode.W))
-        {
-            Vector3 step = ProjectionOnXZ(_camera_transform.forward.normalized);
-            _player_transform.position += player_speed * step;
-        }
+        Vector3 dirvec = new Vector3(0.0f, 0.0f, 0.0f);
 
-        if (Input.GetKey(KeyCode.S))
-        {
-            Vector3 step = -ProjectionOnXZ(_camera_transform.forward.normalized);
-            _player_transform.position += player_speed * step;
-        }
+        if (Input.GetKey(KeyCode.W)) dirvec += _camera_transform.forward.normalized;
+        if (Input.GetKey(KeyCode.S)) dirvec += -_camera_transform.forward.normalized;
+        if (Input.GetKey(KeyCode.D)) dirvec += _camera_transform.right.normalized;
+        if (Input.GetKey(KeyCode.A)) dirvec += -_camera_transform.right.normalized;
+        if (Input.GetKey(KeyCode.Space)) dirvec += _camera_transform.up.normalized;
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            Vector3 step = ProjectionOnXZ(_camera_transform.right.normalized);
-            _player_transform.position += player_speed * step;
-        }
+        return dirvec;
+    }
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            Vector3 step = -ProjectionOnXZ(_camera_transform.right.normalized);
-            _player_transform.position += player_speed * step;
-        }
+    void FixedUpdate()
+    {
+        _player_rigidbody.velocity = DirectionVector() * player_speed;
     }
 }
