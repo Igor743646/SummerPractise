@@ -18,7 +18,7 @@ public class SPlayerMoving : MonoBehaviour
     private Vector3 ProjectionOnXZ(Vector3 vector)
     {
         vector.y = 0f;
-        return vector;
+        return vector.normalized;
     }
 
     private Vector3 DirectionVector() {
@@ -28,8 +28,9 @@ public class SPlayerMoving : MonoBehaviour
         if (Input.GetKey(KeyCode.S)) dirvec += -_camera_transform.forward.normalized;
         if (Input.GetKey(KeyCode.D)) dirvec += _camera_transform.right.normalized;
         if (Input.GetKey(KeyCode.A)) dirvec += -_camera_transform.right.normalized;
+        
 
-        return dirvec;
+        return dirvec.normalized;
     }
 
     void FixedUpdate()
