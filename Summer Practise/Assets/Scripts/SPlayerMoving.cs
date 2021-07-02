@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class SPlayerMoving : MonoBehaviour
 {
+    public Transform target_rotation;
 
-    public float player_speed = 0.04f;
+    public float player_speed = 15.0f;
+    public float rotation_speed = 4.0f;
+    
     private Rigidbody _player_rigidbody;
-    private Transform _camera_transform;
+    
 
     void Start()
     {
         _player_rigidbody = GetComponent<Rigidbody>();
-        _camera_transform = Camera.main.transform;
+
     }
 
     private Vector3 ProjectionOnXZ(Vector3 vector)
@@ -21,20 +24,17 @@ public class SPlayerMoving : MonoBehaviour
         return vector.normalized;
     }
 
-    private Vector3 DirectionVector() {
-        Vector3 dirvec = new Vector3(0, 0, 0);
-
-        if (Input.GetKey(KeyCode.W)) dirvec += _camera_transform.forward.normalized;
-        if (Input.GetKey(KeyCode.S)) dirvec += -_camera_transform.forward.normalized;
-        if (Input.GetKey(KeyCode.D)) dirvec += _camera_transform.right.normalized;
-        if (Input.GetKey(KeyCode.A)) dirvec += -_camera_transform.right.normalized;
-        
-
-        return dirvec.normalized;
-    }
-
     void FixedUpdate()
     {
-        _player_rigidbody.velocity = ProjectionOnXZ(DirectionVector()) * player_speed;
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+
+        Vector3 move_vector = new Vector3(vertical, 0.0f, -horizontal).normalized;
+
+        if (move_vector.magnitude > 0.1f)
+        {
+            _player_rigidbody.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(ProjectionOnXZ(target_rotation.right)), rotation_speed));
+        }
+        _player_rigidbody.AddForce(((transform.right * -vertical) + (transform.forward * (horizontal))) * player_speed);
     }
 }
