@@ -5,6 +5,7 @@ using UnityEngine;
 public class SCapRotation : MonoBehaviour
 {
     public float cap_speed = 2.0f;
+
     private Transform _player_transform;
     // Start is called before the first frame update
     void Start()

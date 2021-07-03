@@ -4,65 +4,71 @@ using UnityEngine;
 
 public class SOpenDoor : MonoBehaviour
 {
-    public Transform door_transform;
-    public Vector3 door_transform_open;
-    public Transform player_transform;
-    public float interaction_radius = 0.1f;
+    public float speed_open = 0.1f;
+    public bool is_open;
+    public Transform panel;
+    public Rigidbody door;
 
-    // PANEL ILLUMINATION WHEN OPERATING
-    private Material _panel_material;
+    //private BoxCollider _box_door;
+    private Quaternion _close_rotation;
+    private Quaternion _open_rotation;
 
-    // INTERACTION LOGIC
-    private Vector3 _base_door_position;
-    private bool _is_door_open;
-    private bool _is_player_near;
-    private bool _is_want_to_open_or_close;
+    private SSelect _select;
 
+    private Color _panal_color;
+
+    //Start is called before the first frame update
     void Start()
     {
-        _panel_material = GetComponent<Renderer>().material;
+        _select = GetComponent<SSelect>();
+        _panal_color = panel.GetComponent<Renderer>().material.color;
 
-        _base_door_position = door_transform.position;
-        _is_door_open = false;
-        _is_player_near = false;
-        _is_want_to_open_or_close = false;
+        _close_rotation = door.rotation;
+        _open_rotation = Quaternion.LookRotation(new Vector3(door.position.x, 0, 0));
+        is_open = false;
+
     }
 
+    // Update is called once per frame
     void Update()
     {
-        Vector3 distance = transform.position - player_transform.position;
-        if (distance.magnitude <= interaction_radius)
+        if (_select.true_select)
         {
-            _is_player_near = true;
-            _panel_material.EnableKeyword("_EMISSION");
-
-            if (Input.GetKeyDown("e"))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                _is_want_to_open_or_close = true;
+                is_open = !is_open;
+            } else
+            {
+                if (is_open) panel.GetComponent<Renderer>().material.color = Color.green;
+                if (!is_open) panel.GetComponent<Renderer>().material.color = Color.magenta;
             }
 
         } else
         {
-            _is_player_near = false;
-            _panel_material.DisableKeyword("_EMISSION");
+            panel.GetComponent<Renderer>().material.color = _panal_color;
         }
 
     }
 
-    void FixedUpdate()
+    private void LateUpdate()
     {
-        if (_is_player_near && _is_want_to_open_or_close)
-        {
-            if (!_is_door_open)
-            {
-                door_transform.position = door_transform_open;
-            } else
-            {
-                door_transform.position = _base_door_position;
-            }
+        Rotate();
+    }
 
-            _is_door_open = !_is_door_open;
-            _is_want_to_open_or_close = false;
+    void Rotate()
+    {
+        if (door.rotation != _open_rotation && is_open)
+        {
+            door.MoveRotation(Quaternion.Slerp(door.rotation, _open_rotation, speed_open));
+
+        }
+
+        if (door.rotation != _close_rotation && !is_open)
+        {
+            door.MoveRotation(Quaternion.Slerp(door.rotation, _close_rotation, speed_open));
+
         }
     }
+
+
 }
