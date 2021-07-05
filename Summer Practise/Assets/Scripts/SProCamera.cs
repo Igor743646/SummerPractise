@@ -125,6 +125,15 @@ public class SProCamera : MonoBehaviour
 
             GameObject obj = hit.collider.gameObject;
 
+            if (_prev_select_obj && _prev_select_obj != obj)
+            {
+                if (_prev_select_obj.GetComponent<SSelect>() && _prev_select_obj.GetComponent<SSelect>().true_select)
+                {
+                    _prev_select_obj.GetComponent<SSelect>().Deselect();
+                    _prev_select_obj = null;
+                }
+            }
+
             if (obj.GetComponent<SSelect>())
             {
                 _prev_select_obj = obj;
