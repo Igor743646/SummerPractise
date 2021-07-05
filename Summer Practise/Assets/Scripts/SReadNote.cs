@@ -4,29 +4,53 @@ using UnityEngine;
 
 public class SReadNote : MonoBehaviour
 {
-
+    [SerializeField] 
+    private GameObject _note;
     private SSelect _select;
-    // Start is called before the first frame update
+    private bool _is_active;
+
+    private Material _note_material;
+
     void Start()
     {
         _select = GetComponent<SSelect>();
+        _note.SetActive(false);
+        _is_active = false;
+        _note_material = GetComponent<Renderer>().material;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_select.true_select)
         {
-            Debug.Log("Active");
-            Active();
+            _note_material.EnableKeyword("_EMISSION");
+
+            if (Input.GetKeyDown(KeyCode.E) && !_is_active)
+            {
+                Activate();
+            }
+            
+            if (Input.GetKeyDown(KeyCode.Q) && _is_active)
+            {
+                Deactivate();
+            }
+
         } else
         {
-            Debug.Log("Disactive");
+            _note_material.DisableKeyword("_EMISSION");
+            Deactivate();
         }
     }
 
-    void Active ()
+    void Activate()
     {
+        _note.SetActive(true);
+        _is_active = true;
+    }
 
+    void Deactivate()
+    {
+        _note.SetActive(false);
+        _is_active = false;
     }
 }

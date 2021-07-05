@@ -30,8 +30,6 @@ public class SProCamera : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
         _prev_select_obj = null;
 
 
