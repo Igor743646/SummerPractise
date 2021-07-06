@@ -24,7 +24,7 @@ public class SOpenDoor : MonoBehaviour
         _panal_color = panel.GetComponent<Renderer>().material.color;
 
         _close_rotation = door.rotation;
-        _open_rotation = Quaternion.LookRotation(new Vector3(door.position.x, 0, 0));
+        _open_rotation = Quaternion.LookRotation(door.transform.right);
         is_open = false;
 
     }
@@ -62,13 +62,11 @@ public class SOpenDoor : MonoBehaviour
         if (door.rotation != _open_rotation && is_open)
         {
             door.MoveRotation(Quaternion.Slerp(door.rotation, _open_rotation, speed_open));
-
         }
 
         if (door.rotation != _close_rotation && !is_open)
         {
             door.MoveRotation(Quaternion.Slerp(door.rotation, _close_rotation, speed_open));
-
         }
     }
 
