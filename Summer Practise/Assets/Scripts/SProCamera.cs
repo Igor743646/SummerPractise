@@ -9,14 +9,14 @@ public class SProCamera : MonoBehaviour
     public float speedY = 15.0f;
     public float limitY = 10.0f;
     public float length_camera_react = 100.0f;
-    public float length_player_react = 1.0f;
+    public float length_player_react = 10.0f;
 
     public LayerMask active;
     public LayerMask obstacles;
     public LayerMask roof;
     public LayerMask ground;
 
-    private float _min_distance = 1.0f;
+    private float _min_distance = 0.25f;
     private float _max_distance;
     private Vector3 _local_posotion;
     private float _current_y_rotation;
@@ -43,11 +43,6 @@ public class SProCamera : MonoBehaviour
     private void Update()
     {
         CameraReact();
-    }
-
-    // Update is called once per frame
-    void LateUpdate()
-    {
         _position = target.TransformPoint(_local_posotion);
         CameraRotation();
         _local_posotion = target.InverseTransformPoint(_position);
@@ -58,7 +53,6 @@ public class SProCamera : MonoBehaviour
         float move_x = Input.GetAxis("Mouse X");
         float move_y = -Input.GetAxis("Mouse Y");
 
-
         RaycastHit hit;
         Ray ray_right = new Ray(transform.position, transform.right.normalized);
         Ray ray_left = new Ray(transform.position, -transform.right.normalized);
@@ -67,8 +61,10 @@ public class SProCamera : MonoBehaviour
 
         bool true_hit_right = Physics.Raycast(ray_right, _min_distance, obstacles);
         bool true_hit_left = Physics.Raycast(ray_left, _min_distance, obstacles);
-        bool true_hit_up = Physics.Raycast(ray_up, _min_distance, roof);
-        bool true_hit_down = Physics.Raycast(ray_down, _min_distance * 1.5f, ground);
+        //bool true_hit_up = Physics.Raycast(ray_up, _min_distance, roof);
+        //bool true_hit_down = Physics.Raycast(ray_down, _min_distance * 1.5f, ground);
+        bool true_hit_up = false;
+        bool true_hit_down = false;
 
         float distance = Vector3.Distance(_position, target.position);
 
@@ -79,6 +75,7 @@ public class SProCamera : MonoBehaviour
 
             if (hit.distance < _min_distance)
             {
+                _position -= hit.point / 4;
                 true_hit_right = true;
                 true_hit_left = true;
             }

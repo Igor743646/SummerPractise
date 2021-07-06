@@ -11,23 +11,21 @@ public class SNumber : MonoBehaviour
     public bool ok;
 
     private SSelect _select;
-    private TextMesh _text;
     private BoxCollider _box;
     private Color _origin_color;
     private float _min_distance;
     private Vector3 _move_x;
     private Vector3 _move_y;
 
-    private Vector3 _1_position; private Vector3 _2_position; private Vector3 _3_position;
-    private Vector3 _4_position; private Vector3 _5_position; private Vector3 _6_position;
-    private Vector3 _7_position; private Vector3 _8_position;
+    private Vector3 _1_position,  _2_position, _3_position;
+    private Vector3 _4_position,  _5_position,  _6_position;
+    private Vector3 _7_position,  _8_position;
 
     // Start is called before the first frame update
     void Start()
     {
         act = false; ok = false;
         _select = GetComponent<SSelect>();
-        _text = GetComponent<TextMesh>();
         _box = GetComponent<BoxCollider>();
 
         true_position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
@@ -37,11 +35,11 @@ public class SNumber : MonoBehaviour
         _5_position = numbers.Find("5").transform.position; _6_position = numbers.Find("6").transform.position;
         _7_position = numbers.Find("7").transform.position; _8_position = numbers.Find("8").transform.position;
 
-        _origin_color = _text.color;
-        _text.color = Color.white;
+        _origin_color = Color.HSVToRGB(22.0f, 77.0f, 32.0f);
+        GetComponent<Renderer>().material.color = Color.white;
         _move_x = _1_position - _2_position;
         _move_y = _4_position - _7_position;
-        _min_distance = _box.size.x;
+        _min_distance = transform.right.normalized.magnitude;
     }
 
     // Update is called once per frame
@@ -49,24 +47,24 @@ public class SNumber : MonoBehaviour
     {
         if (!ok && _select.true_select && act)
         {
-            _text.color = Color.green;
+            GetComponent<Renderer>().material.color = Color.green;
             Moving();
 
         }
 
         if (!ok && !_select.true_select && act)
         {
-            _text.color = _origin_color;
+            GetComponent<Renderer>().material.color = _origin_color;
         }
 
         if (!act)
         {
-            _text.color = Color.white;
+            GetComponent<Renderer>().material.color = Color.white;
             
         }
         if (ok)
         {
-            _text.color = Color.magenta;
+            GetComponent<Renderer>().material.color = Color.magenta;
         }
     }
 
@@ -79,15 +77,15 @@ public class SNumber : MonoBehaviour
 
     void Moving()
     {
-        Ray ray_right = new Ray(transform.position, transform.right);
+        Ray ray_right = new Ray(transform.position, transform.right.normalized);
         Ray ray_left = new Ray(transform.position, -transform.right.normalized);
         Ray ray_up = new Ray(transform.position, transform.up.normalized);
         Ray ray_down = new Ray(transform.position, -transform.up.normalized);
 
-        //Debug.DrawRay(ray_right.origin, ray_right.direction, Color.red);
-        //Debug.DrawRay(ray_left.origin, ray_left.direction, Color.blue);
-        //Debug.DrawRay(ray_up.origin, ray_up.direction, Color.green);
-        //Debug.DrawRay(ray_down.origin, ray_down.direction, Color.yellow) ;
+        Debug.DrawRay(ray_right.origin, ray_right.direction, Color.red);
+        Debug.DrawRay(ray_left.origin, ray_left.direction, Color.blue);
+        Debug.DrawRay(ray_up.origin, ray_up.direction, Color.green);
+        Debug.DrawRay(ray_down.origin, ray_down.direction, Color.yellow);
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -96,8 +94,8 @@ public class SNumber : MonoBehaviour
             bool true_hit_up = Physics.Raycast(ray_up, _min_distance, active);
             bool true_hit_down = Physics.Raycast(ray_down, _min_distance, active);
 
-            if (!true_hit_right) transform.position -= _move_x;
-            else if (!true_hit_left) transform.position += _move_x;
+            if (!true_hit_right) transform.position += _move_x;
+            else if (!true_hit_left) transform.position -= _move_x;
             else if (!true_hit_up) transform.position += _move_y;
             else if (!true_hit_down) transform.position -= _move_y;
         }
@@ -113,11 +111,11 @@ public class SNumber : MonoBehaviour
         numbers.Find("7").transform.position = _7_position;
         numbers.Find("8").transform.position = _8_position + _up;
     }
-    void Check()
+    private void Check()
     {
         if (transform.position == true_position)
         {
-            _text.color = Color.magenta;
+            GetComponent<Renderer>().material.color = Color.magenta;
         }
     }
 
