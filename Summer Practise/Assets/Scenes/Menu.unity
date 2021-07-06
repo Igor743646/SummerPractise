@@ -182,7 +182,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b4d5f7e81c6122a45a6c1bb5779aa274, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 05c29abfe6892ca46b5463ea2e3b0883, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -283,7 +283,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1485435022}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SStartGame, Assembly-CSharp
         m_MethodName: ExitPressed
         m_Mode: 1
@@ -315,7 +315,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 41c6b01905ac2984aa5f4512a47e839b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 85adde0086fc78849beb2597cbd753c7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -479,7 +479,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1485435020}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a21792d18ec159c47a455d2d6bc746bb, type: 3}
+  m_Script: {fileID: 11500000, guid: 34e70d98b5accba4f846263885585ff9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1634114309
@@ -597,7 +597,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 41c6b01905ac2984aa5f4512a47e839b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 85adde0086fc78849beb2597cbd753c7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
