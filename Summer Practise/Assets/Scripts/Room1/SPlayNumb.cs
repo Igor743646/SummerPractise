@@ -7,9 +7,10 @@ public class SPlayNumb : MonoBehaviour
     public Transform panel;
     public Transform numbers;
     public GameObject lamp;
+    public bool active;
+    public bool finish;
 
     private SSelect _select;
-    private bool _active, _finish;
     private Color _origin_color;
 
     private SNumber _1, _2, _3;
@@ -25,8 +26,8 @@ public class SPlayNumb : MonoBehaviour
         _7 = Pos("7"); _8 = Pos("8");
 
         _origin_color = panel.GetComponent<Renderer>().material.color;
-        _active = false;
-        _finish = false;
+        active = false;
+        finish = false;
         if (lamp.GetComponent<Light>().enabled)
             lamp.GetComponent<Light>().enabled = false;
     }
@@ -36,15 +37,15 @@ public class SPlayNumb : MonoBehaviour
     {
         if (_select.true_select)
         {
-            if (!_active) panel.GetComponent<Renderer>().material.color = Color.green;
+            if (!active) panel.GetComponent<Renderer>().material.color = Color.green;
             if (Input.GetKeyDown(KeyCode.E))
-                _active = !_active;
+                active = !active;
         } else
         {
             panel.GetComponent<Renderer>().material.color = _origin_color;
         }
 
-        if (_active)
+        if (active)
             panel.GetComponent<Renderer>().material.color = Color.magenta;
         else if (!_select)
             panel.GetComponent<Renderer>().material.color = _origin_color;
@@ -53,7 +54,7 @@ public class SPlayNumb : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (_active)
+        if (active)
         {
             Activation();
             Check();
@@ -89,9 +90,9 @@ public class SPlayNumb : MonoBehaviour
             _4.ok = true; _5.ok = true; _6.ok = true;
             _7.ok = true; _8.ok = true;
 
-            if (!_finish)
+            if (!finish)
                 lamp.GetComponent<Light>().enabled = true;
-            _finish = true;
+            finish = true;
         }
 
     }

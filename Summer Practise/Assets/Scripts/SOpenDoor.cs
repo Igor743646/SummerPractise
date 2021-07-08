@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class SOpenDoor : MonoBehaviour
 {
-    public float speed_open = 0.1f;
+    public float speed_open = 1.0f;
     public bool is_open;
     public Transform panel;
-    public Rigidbody door;
+    public Transform door;
 
     //private BoxCollider _box_door;
     private Quaternion _close_rotation;
@@ -24,7 +24,7 @@ public class SOpenDoor : MonoBehaviour
         _panal_color = panel.GetComponent<Renderer>().material.color;
 
         _close_rotation = door.rotation;
-        _open_rotation = Quaternion.LookRotation(door.transform.right);
+        _open_rotation = Quaternion.LookRotation(-door.transform.right);
         is_open = false;
 
     }
@@ -60,14 +60,10 @@ public class SOpenDoor : MonoBehaviour
     void Rotate()
     {
         if (door.rotation != _open_rotation && is_open)
-        {
-            door.MoveRotation(Quaternion.Slerp(door.rotation, _open_rotation, speed_open));
-        }
+            door.rotation = Quaternion.RotateTowards(door.rotation, _open_rotation, speed_open);
 
         if (door.rotation != _close_rotation && !is_open)
-        {
-            door.MoveRotation(Quaternion.Slerp(door.rotation, _close_rotation, speed_open));
-        }
+            door.rotation = Quaternion.RotateTowards(door.rotation, _close_rotation, speed_open);
     }
 
 
