@@ -1,0 +1,7 @@
+PWD /home/igor/Рабочий стол/Summer Practise/report/src
+INPUT /etc/texmf/web2c/texmf.cnf
+INPUT /usr/share/texmf/web2c/texmf.cnf
+INPUT /usr/share/texlive/texmf-dist/web2c/texmf.cnf
+INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
+INPUT tech_report.tex
+OUTPUT tech_report.log
